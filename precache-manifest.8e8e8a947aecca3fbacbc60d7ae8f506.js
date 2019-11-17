@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "18b508f7a267b22980745d620f282136",
+    "revision": "0c17c617d1ebcdc50b2bc7d58002d51d",
     "url": "/brainiac/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/brainiac/static/css/2.14823825.chunk.css"
   },
   {
-    "revision": "757b6325ac9ea9d634e0",
+    "revision": "dc5f5f475a02f25e8b9e",
     "url": "/brainiac/static/css/main.577bddc0.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/brainiac/static/js/2.1fd01a42.chunk.js"
   },
   {
-    "revision": "757b6325ac9ea9d634e0",
-    "url": "/brainiac/static/js/main.cc6f6f54.chunk.js"
+    "revision": "dc5f5f475a02f25e8b9e",
+    "url": "/brainiac/static/js/main.850e53dc.chunk.js"
   },
   {
     "revision": "db20eb46eb271a74adfd",
