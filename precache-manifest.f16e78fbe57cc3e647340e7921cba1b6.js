@@ -1,23 +1,23 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "2dc211ffe973cc45b371fecba8279123",
+    "revision": "763cfb6f6f3ee8de8b83b79aaf5ea683",
     "url": "/Brainiac/index.html"
   },
   {
-    "revision": "2ec5293b1c2164cfc8d4",
-    "url": "/Brainiac/static/css/2.eb45ad44.chunk.css"
+    "revision": "bacc235ee514d2809680",
+    "url": "/Brainiac/static/css/2.14823825.chunk.css"
   },
   {
-    "revision": "83a95c9b0d9a9d19cd1c",
+    "revision": "f258d0eea897f52597e2",
     "url": "/Brainiac/static/css/main.8637b5dc.chunk.css"
   },
   {
-    "revision": "2ec5293b1c2164cfc8d4",
-    "url": "/Brainiac/static/js/2.60de9210.chunk.js"
+    "revision": "bacc235ee514d2809680",
+    "url": "/Brainiac/static/js/2.27de3539.chunk.js"
   },
   {
-    "revision": "83a95c9b0d9a9d19cd1c",
-    "url": "/Brainiac/static/js/main.b9353227.chunk.js"
+    "revision": "f258d0eea897f52597e2",
+    "url": "/Brainiac/static/js/main.7d2f1b46.chunk.js"
   },
   {
     "revision": "599bdff34c6284fbca7e",
