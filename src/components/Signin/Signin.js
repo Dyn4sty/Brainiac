@@ -15,7 +15,7 @@ class Signin extends React.Component {
     );
     if (res == null) return false;
     else return true;
-  }
+  };
 
   onEmailChange = event => {
     this.setState({ signInEmail: event.target.value });
@@ -30,7 +30,7 @@ class Signin extends React.Component {
     if (password.length < 4 || !this.isEmailValid(email)) {
       return;
     }
-    fetch("http://10.0.0.10:3000/signin", {
+    fetch("https://brainiac-face-recognition.herokuapp.com/signin", {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -41,12 +41,15 @@ class Signin extends React.Component {
       .then(res => res.json())
       .then(user => {
         if (user.id) {
-          Swal.fire("Good job!", `${user.name} You Signin Sucessfully! Welcome.`, "success");
-          this.props.loadUser(user)
-          setTimeout( () => this.props.onRouteChange("home"), 1000);
-        }
-        else {
-          Swal.fire("Error", "Wrong Credentials", "error")
+          Swal.fire(
+            "Good job!",
+            `${user.name} You Signin Sucessfully! Welcome.`,
+            "success"
+          );
+          this.props.loadUser(user);
+          setTimeout(() => this.props.onRouteChange("home"), 1000);
+        } else {
+          Swal.fire("Error", "Wrong Credentials", "error");
         }
       })
       .catch(err => console.log(err));

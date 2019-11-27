@@ -1,40 +1,34 @@
 import React from "react";
 import Particles from "react-particles-js";
-import Clarifai from "clarifai";
 import Swal from "sweetalert2";
 import Navigation from "./components/Navigation/Navigation";
 import Logo from "./components/Logo/Logo";
 import ImageLinkForm from "./components/ImageLinkForm/ImageLinkForm";
-import Rank from './components/Rank/Rank';
+import Rank from "./components/Rank/Rank";
 import FaceRecognition from "./components/FaceRecognition/FaceRecognition";
 import particlesOptions from "./particlesOptions";
 import Signin from "./components/Signin/Signin";
 import Register from "./components/Register/Register";
 import "./App.css";
 import { storage } from "./firebase";
-import  {verifyFile, acceptedFileTypes, imageMaxSize} from './verifyFile'
+import { verifyFile, acceptedFileTypes, imageMaxSize } from "./verifyFile";
 
 const initialState = {
-  input: '',
-  imageUrl: '',
+  input: "",
+  imageUrl: "",
   box: {},
-  route: 'signin',
+  route: "signin",
   isSignedIn: false,
   progress: 0,
   progess_show: false,
   user: {
-    id: '',
-    name: '',
-    email: '',
+    id: "",
+    name: "",
+    email: "",
     entries: 0,
-    joined: '',
+    joined: ""
   }
-}
-
-const app = new Clarifai.App({
-  apiKey: "165546baa7c245d68b76d4bb42ab8a01"
-});
-
+};
 
 class App extends React.Component {
   constructor() {
@@ -42,16 +36,17 @@ class App extends React.Component {
     this.state = initialState;
   }
 
-  loadUser = (data) => {
-    this.setState({user: {
-      id: data.id,
-      name: data.name,
-      email: data.email,
-      entries: data.entries,
-      joined: data.joined
-    }})
-  }
-
+  loadUser = data => {
+    this.setState({
+      user: {
+        id: data.id,
+        name: data.name,
+        email: data.email,
+        entries: data.entries,
+        joined: data.joined
+      }
+    });
+  };
 
   handleOnDrop = (files, rejectedFiles) => {
     if (rejectedFiles && rejectedFiles.length > 0) {
@@ -85,10 +80,11 @@ class App extends React.Component {
               .getDownloadURL()
               .then(imageUrl => {
                 document.getElementById("detect").disabled = false; // disabling the Detect btn
-                this.setState({ imageUrl });
-                this.SendRequest(this.state.imageUrl, "Bad Image");
+                this.setState({ input: imageUrl });
+                this.SendRequest(this.state.input, "Bad Image");
               });
             this.setState({ image: null });
+            this.setState({ input: "" });
           }
         );
       }
@@ -116,24 +112,21 @@ class App extends React.Component {
     this.setState({ input: event.target.value });
   };
 
-  isUrlValid = (userInput) => {
+  isUrlValid = userInput => {
     var res = userInput.match(
       /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g
     );
     if (res == null) return false;
     else return true;
-  }
+  };
 
   onButtonSubmit = () => {
     this.setState({ progress_show: false });
     const input_field = this.state.input;
-    //let patt = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/;
-    //let match = input_field.match();
-    if (input_field === '') {
+    if (input_field === "") {
       Swal.fire("Error!", "Blank Input", "error");
-      return
-    }
-    else {
+      return;
+    } else {
       if (!this.isUrlValid(input_field)) {
         Swal.fire("Error!", "Bad Image URL", "error");
         return;
@@ -141,38 +134,39 @@ class App extends React.Component {
     }
 
     this.SendRequest(this.state.input, "Could not process image");
-    this.setState({ imageUrl: this.state.input });
   };
 
   SendRequest = (file, custom_error) => {
-    app.models
-      .predict(Clarifai.FACE_DETECT_MODEL, file)
+    fetch("https://brainiac-face-recognition.herokuapp.com/imageurl", {
+      method: "post",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        input: file
+      })
+    })
+      .then(response => response.json())
       .then(response => {
-        if (response) {
-          fetch('http://localhost:3000/image', {
-            method: 'put',
-            headers: {'Content-Type': 'application/json'},
+        if (response.outputs[0].data.regions[0]) {
+          this.setState({ imageUrl: this.state.input });
+          fetch("https://brainiac-face-recognition.herokuapp.com/image", {
+            method: "put",
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
               id: this.state.user.id
             })
           })
             .then(response => response.json())
             .then(count => {
-              this.setState(Object.assign(this.state.user, { entries: count}))
-            })
-
+              this.setState(Object.assign(this.state.user, { entries: count }));
+            });
+          this.displayFaceBox(this.calculateFaceLocation(response));
         }
-        this.displayFaceBox(this.calculateFaceLocation(response))
       })
-      .catch(
-        err =>
-          this.setState(initialState) +
-          Swal.fire("Error!", custom_error, "error")
-      );
+      .catch(err => Swal.fire("Error!", custom_error, "error"));
   };
   onRouteChange = route => {
     if (route === "signout") {
-      this.setState(initialState)
+      this.setState(initialState);
     } else if (route === "home") {
       this.setState({ isSignedIn: true });
     }
@@ -180,29 +174,31 @@ class App extends React.Component {
   };
 
   refreshEntries = () => {
-    fetch('http://localhost:3000/entries', {
-      method: 'put',
-      headers: {'Content-Type': 'application/json'},
+    fetch("https://brainiac-face-recognition.herokuapp.com/entries", {
+      method: "put",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         id: this.state.user.id
       })
     })
-    .then(response => response.json())
-    .then(count => {
-      this.setState(Object.assign(this.state.user, { entries: count}))
-    })
-  }
-  
+      .then(response => response.json())
+      .then(count => {
+        this.setState(Object.assign(this.state.user, { entries: count }));
+      });
+  };
+
   componentDidMount() {
-    this.interval = setInterval( () => {
-      if(this.state.user.id !== '') {
-        this.refreshEntries()
-      }}, 10000)
+    this.interval = setInterval(() => {
+      if (this.state.user.id !== "") {
+        this.refreshEntries();
+      }
+    }, 15000);
   }
-  
+
   componentWillUnmount() {
     clearInterval(this.interval);
   }
+
   render() {
     const {
       isSignedIn,
@@ -212,7 +208,7 @@ class App extends React.Component {
       progress,
       progress_show
     } = this.state;
-     
+
     return (
       <React.Fragment>
         <Particles className="particles" params={particlesOptions} />
@@ -225,9 +221,9 @@ class App extends React.Component {
           <React.Fragment>
             <Logo />
             <Rank
-                name={this.state.user.name}
-                entries={this.state.user.entries}
-              />
+              name={this.state.user.name}
+              entries={this.state.user.entries}
+            />
             <ImageLinkForm
               onInputChange={this.onInputChange}
               onButtonSubmit={this.onButtonSubmit}
@@ -242,7 +238,10 @@ class App extends React.Component {
         ) : route === "signin" ? (
           <Signin loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
         ) : (
-          <Register loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
+          <Register
+            loadUser={this.loadUser}
+            onRouteChange={this.onRouteChange}
+          />
         )}
       </React.Fragment>
     );
