@@ -1,0 +1,13 @@
+progress {
+	width: 350px;
+	height: 10px;
+	margin: 10px auto;
+	display: block;
+    -webkit-appearance: none;
+}
+#drag {
+	cursor: pointer;
+	width: 70%;
+	height: 30%;
+	align-items: center;
+}
