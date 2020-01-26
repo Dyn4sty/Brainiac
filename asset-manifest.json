@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/Brainiac/static/css/main.b4968277.chunk.css",
-    "main.js": "/Brainiac/static/js/main.30fbcf11.chunk.js",
-    "main.js.map": "/Brainiac/static/js/main.30fbcf11.chunk.js.map",
+    "main.js": "/Brainiac/static/js/main.ce7f54c1.chunk.js",
+    "main.js.map": "/Brainiac/static/js/main.ce7f54c1.chunk.js.map",
     "runtime-main.js": "/Brainiac/static/js/runtime-main.a0ef8001.js",
     "runtime-main.js.map": "/Brainiac/static/js/runtime-main.a0ef8001.js.map",
     "static/css/2.14823825.chunk.css": "/Brainiac/static/css/2.14823825.chunk.css",
     "static/js/2.5decd820.chunk.js": "/Brainiac/static/js/2.5decd820.chunk.js",
     "static/js/2.5decd820.chunk.js.map": "/Brainiac/static/js/2.5decd820.chunk.js.map",
     "index.html": "/Brainiac/index.html",
-    "precache-manifest.7a5b533e8065e2aca0203445057c9092.js": "/Brainiac/precache-manifest.7a5b533e8065e2aca0203445057c9092.js",
+    "precache-manifest.0e9f9046ed5cbfe6f697ceb0352d66e3.js": "/Brainiac/precache-manifest.0e9f9046ed5cbfe6f697ceb0352d66e3.js",
     "service-worker.js": "/Brainiac/service-worker.js",
     "static/css/2.14823825.chunk.css.map": "/Brainiac/static/css/2.14823825.chunk.css.map",
     "static/css/main.b4968277.chunk.css.map": "/Brainiac/static/css/main.b4968277.chunk.css.map",
@@ -20,6 +20,6 @@
     "static/css/2.14823825.chunk.css",
     "static/js/2.5decd820.chunk.js",
     "static/css/main.b4968277.chunk.css",
-    "static/js/main.30fbcf11.chunk.js"
+    "static/js/main.ce7f54c1.chunk.js"
   ]
 }
