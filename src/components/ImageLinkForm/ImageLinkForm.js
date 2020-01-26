@@ -2,7 +2,7 @@ import React from 'react';
 import './ImageLinkForm.css'
 import Dropzone from 'react-dropzone'
 
-const ImageLinkForm = ({ onInputChange, onButtonSubmit, handleOnDrop ,progress, progress_show, acceptedFileTypes, imageMaxSize}) => {
+const ImageLinkForm = ({ onInputChange, onButtonSubmit, handleOnDrop ,progress, progress_show, acceptedFileTypes, imageMaxSize})=> {
 if (progress_show) {
     return(
       <div>

@@ -16,7 +16,7 @@ import { verifyFile, acceptedFileTypes, imageMaxSize } from "./verifyFile";
 const initialState = {
   input: "",
   imageUrl: "",
-  box: {},
+  box: [],
   route: "signin",
   isSignedIn: false,
   progress: 0,
@@ -91,17 +91,20 @@ class App extends React.Component {
     }
   };
   calculateFaceLocation = data => {
-    const clarifaiFace =
-      data.outputs[0].data.regions[0].region_info.bounding_box;
+    let arrOfRegions = [];
     const image = document.getElementById("inputimage");
     const width = Number(image.width);
     const height = Number(image.height);
-    return {
-      leftCol: clarifaiFace.left_col * width,
-      topRow: clarifaiFace.top_row * height,
-      rightCol: width - clarifaiFace.right_col * width,
-      bottomRow: height - clarifaiFace.bottom_row * height
-    };
+    for (let faceRegion of data.outputs[0].data.regions) {
+      arrOfRegions.push({
+        leftCol: faceRegion.region_info.bounding_box.left_col * width,
+        topRow: faceRegion.region_info.bounding_box.top_row * height,
+        rightCol: width - faceRegion.region_info.bounding_box.right_col * width,
+        bottomRow: height - faceRegion.region_info.bounding_box.bottom_row * height,
+      })
+    }
+
+    return arrOfRegions;
   };
 
   displayFaceBox = box => {
@@ -183,7 +186,9 @@ class App extends React.Component {
     })
       .then(response => response.json())
       .then(count => {
-        this.setState(Object.assign(this.state.user, { entries: count }));
+        if (this.state.user.entries !== count) {
+          this.setState(Object.assign(this.state.user, { entries: count }));
+        }
       });
   };
 
@@ -194,6 +199,7 @@ class App extends React.Component {
       }
     }, 15000);
   }
+
 
   componentWillUnmount() {
     clearInterval(this.interval);
