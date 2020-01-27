@@ -85,6 +85,7 @@ class App extends React.Component {
               });
             this.setState({ image: null });
             this.setState({ input: "" });
+            setInterval(() => this.setState({ progress_show: false }), 3000)
           }
         );
       }
@@ -108,7 +109,7 @@ class App extends React.Component {
   };
 
   displayFaceBox = box => {
-    this.setState({ box: box });
+    this.setState({ box });
   };
 
   onInputChange = event => {
@@ -119,14 +120,13 @@ class App extends React.Component {
     var res = userInput.match(
       /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g
     );
-    if (res == null) return false;
-    else return true;
+    if (!res) return false;
+    return true;
   };
 
   onButtonSubmit = () => {
-    this.setState({ progress_show: false });
     const input_field = this.state.input;
-    if (input_field === "") {
+    if (!input_field) {
       Swal.fire("Error!", "Blank Input", "error");
       return;
     } else {
@@ -155,7 +155,8 @@ class App extends React.Component {
             method: "put",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-              id: this.state.user.id
+              id: this.state.user.id,
+              count: response.outputs[0].data.regions.length 
             })
           })
             .then(response => response.json())

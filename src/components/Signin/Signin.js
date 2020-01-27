@@ -57,7 +57,7 @@ class Signin extends React.Component {
 
   onEnterPress = event => {
     if (event.keyCode === 13) {
-      document.getElementById("submit").click();
+      this.onSubmitSignIn()
     }
   };
 

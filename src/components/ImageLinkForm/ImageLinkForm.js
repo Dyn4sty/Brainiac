@@ -2,12 +2,12 @@ import React from 'react';
 import './ImageLinkForm.css'
 import Dropzone from 'react-dropzone'
 
-const ImageLinkForm = ({ onInputChange, onButtonSubmit, handleOnDrop ,progress, progress_show, acceptedFileTypes, imageMaxSize})=> {
+const ImageLinkForm = ({ onInputChange, onButtonSubmit, handleOnDrop ,progress, progress_show, acceptedFileTypes, imageMaxSize}) => {
 if (progress_show) {
     return(
       <div>
-      <p className='f3 center'>
-        {'This Magic Brain will detect faces in your pictures. Give it a try.'}
+      <p className='tc'>
+        {'This Magic Brain will deatect faces in your pictures. Give it a try.'}
       </p>
       <div className='center'>
         <div className='center ma2 pa4 br3 shadow-5' style={{width: '800px'}}>
@@ -39,7 +39,7 @@ if (progress_show) {
   }
   return (
     <div>
-      <p className='f3 center'>
+      <p className='f3 center tc'>
       {'This Magic Brain will detect faces in your pictures. Give it a try.'}
       </p>
     <div className='center'>
